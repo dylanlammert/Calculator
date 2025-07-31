@@ -27,6 +27,11 @@ function div(num1, num2) {
     console.log(dividend);
     return dividend;
 };
+function powerOf(num1,num2) {
+    let answer = 0;
+    answer = num1 ** num2;
+    return answer;
+}
 
 function operate(operator, num1, num2) {
     let answer = 0;
@@ -45,22 +50,41 @@ function operate(operator, num1, num2) {
         case "-":
             answer = sub(num1,num2);
             break;
+        case "^":
+            answer = powerOf(num1,num2);
+            break;
         default:
             console.log("error");
     }
     return answer;
 };
+/**
+ * 
+ * @param {*} character The input that is being given by the user
+ * @returns true if the operators array includes the input
+ */
 function isOperator(character) {
-    const operators = ['+', '-', 'x', '÷',' '];
+    const operators = ['+', '-', 'x', '÷','^'];
     return operators.includes(character);
 };
-
+/**
+ * @brief Checks to see if a number is a percentage
+ * @param {*} num number string that needs to be checked
+ * @returns true if it is a percentage
+ * @returns false if it is not a percentage
+ */
 function isPercentage(num) {
     if(num[num.length -1] == '%') {
         return true;
     }
     return false;
 }
+/**
+ * @brief converts a percentage to decimal form
+ * @param {*} numStr string version of the number that needs to be converted
+ * @var decConversion - variable to hold the decimal form of the numStr
+ * @returns decConversion - the decimal form of numStr
+ */
 function percentToDecimal(numStr) {
     let decConversion = 0;
     let num = Number(numStr.slice(0,numStr.length - 1));
@@ -70,7 +94,9 @@ function percentToDecimal(numStr) {
 }
 /**
  * @brief helper function to find the index of an operator within a string
- * 
+ * @var operatorIndex - the index of the operator within the string
+ * @returns operatorIndex - if the operator is found
+ * @returns -1 if the operator could not be found
  */
 function findOperator(someString) {
     let operatorIndex = 0;
@@ -86,19 +112,22 @@ function findOperator(someString) {
 /**
  * @brief This function checks the currentOperation string and determines if
  *        the input that is coming in is a valid one. 
- *        Cases(false return values): 
- *        1. there are 2 operator next to each other
- *        2. there are more than one decimal in a number
- *        3. The percent sign follows an operand
- *        4. there is not a close parenthesis to an open one
- *        5. if there is already an operator in the string then it will act as the equateButton()
+ * 
  * @param {*} currentString This is the currentOperation string
  * @param {*} input This is the input selection that is being verified
- * @returns boolean value based on if the input is valid
+ * @returns false - 1. There are 2 operators next to each other
+ *                  2. There is more than 1 decimal in a number
+ *                  3. The percent sign follows an operator
+ * @returns true -  1. The input does not trigger any false returns
+ *                  2. The input is the second operator in the operation that doesn't directly follow another operator
  */
 function verifyInput(currentString, input) {
     console.log(currentString);
     console.log(input);
+    if(isOperator(input) && (currentString.length < 1)) {
+        return false;
+    }
+
     if(isOperator(currentString[currentString.length - 1]) && isOperator(input)) {
         console.log( errorText + "Error: Cannot have 2 operators together!" + resetColor)
         return false;
@@ -113,18 +142,37 @@ function verifyInput(currentString, input) {
     }
     return true;
 }
-
+/**
+ * @brief updates the both the displayArea and prevAnswer variables
+ *        
+ * @returns 0 - just a stub value.
+ */
 function updateDisplay() {
     displayArea.textContent = currentOperation;
     prevAnswer.textContent = lastExpression + lastAnswer;
+    return 0;
 }
-
+/**
+ * @brief controls the functionality for the equals button. 
+ *        1. Parses the string into 3 variables 
+ *        2. checks if a num is a percentage and converts it to decimal
+ *        3. Do the operation 
+ *        4. updates the display
+ * @var num1 - left number in the operation
+ * @var num1 - right number in the operation
+ * @var num1Str - The string version of the number that needs to be parsed to Number
+ * @var num2Str - The string version of the number that needs to be parsed to Number
+ * @var spliceIndex - the index where the string will be spliced. the index of the operator.
+ * @var operator - the operator for the operation
+ * 
+ * @returns 0 - just a stub value.
+ */
 function equateButton() {
     let num1 = 0;
     let num2 = 0;
     let num1Str = "";
     let num2Str = "";
-    spliceIndex = findOperator(currentOperation);
+    let spliceIndex = findOperator(currentOperation);
     console.log("CurrentOperation = " + currentOperation);
     // need to check if the number is a percentage first
     num1Str = currentOperation.slice(0,spliceIndex);
@@ -149,6 +197,14 @@ function equateButton() {
     lastExpression = currentOperation;
     currentOperation = lastAnswer;
     updateDisplay();
+
+    return 0; 
+}
+
+function removeLastChar(someString) {
+    console.log(someString);
+    console.log("remove last character in the currentOperation string");
+    return (someString.slice(0,someString.length - 1));
 }
 
 // red error text color
@@ -191,3 +247,11 @@ const equalsButton = document.querySelector("#equalOperation");
 
 // create an onclick event listener that 
 equalsButton.addEventListener("click", equateButton);
+
+// grab a reference to the backspace button
+const backspaceButton = document.querySelector("#backSpaceButton");
+
+backspaceButton.addEventListener("click", () => {
+    currentOperation = removeLastChar(currentOperation);
+    updateDisplay();
+});

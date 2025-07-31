@@ -6,6 +6,7 @@ body {
     display: flex;
     height: 100vh;
     margin:0px;
+    background-color: white;
 }
 
 td {
@@ -64,5 +65,5 @@ button {
 }
 
 .operationButtons {
-    background-color: lightcyan;
+    background-color: orange;
 }
