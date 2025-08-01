@@ -128,9 +128,15 @@ function verifyInput(currentString, input) {
         return false;
     }
 
-    if(isOperator(currentString[currentString.length - 1]) && isOperator(input)) {
-        console.log( errorText + "Error: Cannot have 2 operators together!" + resetColor)
-        return false;
+    if(isOperator(currentString[currentString.length - 1])) {
+        if(isOperator(input)){
+            console.log( errorText + "Error: Cannot have 2 operators together!" + resetColor)
+            return false;
+        }
+        else if(input == '%') {
+            console.log(errorText + "Error: A percent sign cannot follow an operator" + resetColor);
+            return false;
+        }
     }
     for( let i = 0; i < currentString.length; i++) {
         if(isOperator(currentString[i]) && isOperator(input)) {
@@ -139,6 +145,11 @@ function verifyInput(currentString, input) {
             equateButton();
             //currentOperation += input;
         }
+    }
+
+    // check to see if the input is the % sign
+    if((input == '%') && currentString.length < 1) {
+        return false;
     }
     return true;
 }
