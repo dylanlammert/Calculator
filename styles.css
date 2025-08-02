@@ -4,24 +4,33 @@ h1, h2, h3, h4, h5, p, button {
 
 body {
     display: flex;
+    flex-direction: column;
     height: 100vh;
     margin:0px;
+    width: 100vw;
+    box-sizing: border-box;
     background-color: white;
 }
-
+table {
+    width: 100%;
+}
 td {
+    width: 25%;
     background-color: rgb(232, 232, 232);
     border-radius: 25px;
+    height: auto;
+    
 }
 
 .display {
+    box-sizing: border-box;
     display:flex;
     flex-direction: column;
     justify-content: space-between;
     border: 1px solid lightgrey;
     border-radius: 15px;
-    height:50px;
-    width: 200px;
+    height: 64px;
+    width: 100%;
     text-align: end;
     padding: 4px 4px;
     overflow: scroll;
@@ -29,7 +38,7 @@ td {
 
 .prevAnswer {
     color: rgb(163, 162, 162);
-    font-size: 14px;;
+    font-size: 14px;
 }
 
 .currentOperation {
@@ -42,27 +51,29 @@ button {
     border: none;
     background-color: transparent;
     font-weight: bold;
+    height: 100%;
+    width: 100%;
 }
-.specialFunctionButtons {
+
+.specialFunctionButtons, .calculatorButtons {
     display: flex;
+    text-align: center;
     align-items: center;
     justify-content: center;
-    height: 28px;
-    width: 48px;
-}
-.calculatorButtons {
-    display:flex;
-    align-items: center;
-    justify-content: center;
-    height: 28px;
-    width: 48px;
+    height: auto;
 }
 
 .contentDiv {
-    width: fit-content;
+    box-sizing: border-box;
+    width: 50%;
     margin: auto;
     align-items: center;
     justify-content: center;
+    padding: 24px;
+    border: 2px solid grey;
+    border-radius: 25px;
+    background-color: rgba(128, 128, 128, 0.292);
+    
 }
 
 .operationButtons {
@@ -81,7 +92,40 @@ button {
 
 /* small phones */
 @media only screen and (max-width: 600px) {
+    .display {
+        border: none;
+        border-bottom: 2px solid grey;
+        margin-bottom: 16px;
+        border-radius: 0px;
+        height: 100px;
+    }
+    .prevAnswer {
+        font-size: 18px;
+    }
 
+    .currentOperation {
+        font-size: 32px;
+    }
+
+    .specialFunctionButtons, .calculatorButtons {
+        aspect-ratio: 1/1;
+        width: 100%;
+        margin: auto;
+    }
+    td {
+        border-radius: 100px;
+    }
+    .contentDiv {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        padding: 0px;
+        background-color: transparent;
+        border: none;
+        justify-self: end;
+        margin-bottom: 0px;
+    }
+    
 }
 
 /* smaller devices (larger devices and small tablets*/
