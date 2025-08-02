@@ -1,3 +1,4 @@
 # Calculator
-## Functions
-- capabilities include; addition, subtraction, multiplication, division.
+## Features
+- capabilities include; addition, subtraction, multiplication, division, exponentation.
+- Darkmode
