@@ -96,7 +96,7 @@ function percentToDecimal(numStr) {
  * @brief helper function to find the index of an operator within a string
  * @var operatorIndex - the index of the operator within the string
  * @returns operatorIndex - if the operator is found
- * @returns -1 if the operator could not be found
+ * @returns 0 if the operator could not be found
  */
 function findOperator(someString) {
     let operatorIndex = 0;
@@ -106,7 +106,7 @@ function findOperator(someString) {
             return operatorIndex;
         }
     }
-    return -1;
+    return operatorIndex;
 }
 
 /**
@@ -122,7 +122,7 @@ function findOperator(someString) {
  *                  2. The input is the second operator in the operation that doesn't directly follow another operator
  */
 function verifyInput(currentString, input) {
-    console.log(currentString);
+    console.log("currentString = " + currentString);
     console.log(input);
     if(isOperator(input) && (currentString.length < 1)) {
         return false;
@@ -145,6 +145,12 @@ function verifyInput(currentString, input) {
             equateButton();
             //currentOperation += input;
         }
+    }
+    if(input == ".") {
+        console.log('input is a decimal');
+        let returnValue = false;
+        returnValue = decimalButton(currentString);
+        return returnValue;
     }
 
     // check to see if the input is the % sign
@@ -218,6 +224,19 @@ function removeLastChar(someString) {
     return (someString.slice(0,someString.length - 1));
 }
 
+function decimalButton(currentString) {
+    let numStr = "";
+    // if there is an operator then make the splice index the operator index
+    let spliceIndex = findOperator(currentString);
+    console.log("inside of the decimal button function");
+    numStr = currentOperation.slice(spliceIndex, currentString.length - 1);
+    console.log("numStr = " + numStr);
+    if(numStr.includes('.')) {
+        return false;
+    }
+
+    return true;
+}
 // red error text color
 const errorText = "\x1b[41m";
 const resetColor = "\x1b[49m\x1b[39m";
@@ -266,3 +285,6 @@ backspaceButton.addEventListener("click", () => {
     currentOperation = removeLastChar(currentOperation);
     updateDisplay();
 });
+
+// grab a reference to the decimal Button
+const decButton = document.querySelector("#decimalButton");
